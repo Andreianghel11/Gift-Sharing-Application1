@@ -1,7 +1,5 @@
 package database;
 
-import enums.Category;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +16,27 @@ public class Child {
 
     private double niceScore;
 
-    private List<String> giftsPreferences;
+    private List<String> giftPreferences;
+
+    private List<Double> niceScoresList;
+
+    public double budgetAllocated;
+
+    private List<Gift> giftsReceived;
 
     public Child(int id, String lastName, String firstName, int age, String city,
-                 double niceScore, ArrayList<String> giftsPreferences) {
+                 double niceScore, ArrayList<String> giftPreferences) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.age = age;
         this.city = city;
         this.niceScore = niceScore;
-        this.giftsPreferences = giftsPreferences;
+        this.giftPreferences = giftPreferences;
+        niceScoresList = new ArrayList<>();
+        niceScoresList.add(this.niceScore);
+        budgetAllocated = 0;
+        giftsReceived = new ArrayList<>();
     }
 
     public int getId() {
@@ -79,12 +87,36 @@ public class Child {
         this.niceScore = niceScore;
     }
 
-    public List<String> getGiftsPreferences() {
-        return giftsPreferences;
+    public List<String> getGiftPreferences() {
+        return giftPreferences;
     }
 
-    public void setGiftsPreferences(List<String> giftsPreferences) {
-        this.giftsPreferences = giftsPreferences;
+    public void setGiftPreferences(List<String> giftPreferences) {
+        this.giftPreferences = giftPreferences;
+    }
+
+    public List<Double> getNiceScoresList() {
+        return niceScoresList;
+    }
+
+    public void setNiceScoresList(List<Double> niceScoresList) {
+        this.niceScoresList = niceScoresList;
+    }
+
+    public double getBudgetAllocated() {
+        return budgetAllocated;
+    }
+
+    public void setBudgetAllocated(double budgetAllocated) {
+        this.budgetAllocated = budgetAllocated;
+    }
+
+    public List<Gift> getGiftsReceived() {
+        return giftsReceived;
+    }
+
+    public void setGiftsReceived(List<Gift> giftsReceived) {
+        this.giftsReceived = giftsReceived;
     }
 
     @Override
@@ -96,7 +128,9 @@ public class Child {
                 ", age=" + age +
                 ", city='" + city + '\'' +
                 ", niceScore=" + niceScore +
-                ", giftsPreferences=" + giftsPreferences +
+                ", giftPreferences=" + giftPreferences +
+                ", niceScoresList=" + niceScoresList +
+                ", budgetAllocated=" + budgetAllocated +
                 '}';
     }
 }

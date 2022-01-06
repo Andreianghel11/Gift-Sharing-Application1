@@ -6,11 +6,11 @@ import java.util.List;
 public class ChildUpdate {
     private int id;
 
-    private int niceScore;
+    private double niceScore;
 
     private List<String> giftsPreferences;
 
-    public ChildUpdate(int id, int niceScore, ArrayList<String> giftsPreferences) {
+    public ChildUpdate(int id, double niceScore, ArrayList<String> giftsPreferences) {
         this.id = id;
         this.niceScore = niceScore;
         this.giftsPreferences = giftsPreferences;
@@ -24,11 +24,11 @@ public class ChildUpdate {
         this.id = id;
     }
 
-    public int getNiceScore() {
+    public double getNiceScore() {
         return niceScore;
     }
 
-    public void setNiceScore(int niceScore) {
+    public void setNiceScore(double niceScore) {
         this.niceScore = niceScore;
     }
 

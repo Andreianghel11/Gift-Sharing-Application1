@@ -26,8 +26,8 @@ public final class InputLoader {
         JSONParser jsonParser = new JSONParser();
         int numberOfYears = 0;
         int santaBudget = 0;
-        List<Child> children = new ArrayList<>();
-        List<Gift> gifts = new ArrayList<>();
+        List<Child> childList = new ArrayList<>();
+        List<Gift> giftList = new ArrayList<>();
         List<AnnualChange> changes = new ArrayList<>();
 
         try {
@@ -43,7 +43,7 @@ public final class InputLoader {
 
             if (jsonChildren != null) {
                 for (Object jsonIterator : jsonChildren) {
-                    children.add(new Child(
+                    childList.add(new Child(
                             ((Long) ((JSONObject) jsonIterator).get(Constants.ID)).intValue(),
                             ((JSONObject) jsonIterator).get(Constants.LAST_NAME).toString(),
                             ((JSONObject) jsonIterator).get(Constants.FIRST_NAME).toString(),
@@ -58,7 +58,7 @@ public final class InputLoader {
 
             if (jsonGifts != null) {
                 for (Object jsonIterator : jsonGifts) {
-                    gifts.add(new Gift(
+                    giftList.add(new Gift(
                             ((JSONObject) jsonIterator).get(Constants.PRODUCT_NAME).toString(),
                             ((Long)((JSONObject) jsonIterator).get(Constants.PRICE)).intValue(),
                             ((JSONObject) jsonIterator).get(Constants.CATEGORY).toString()
@@ -145,6 +145,6 @@ public final class InputLoader {
             e.printStackTrace();
         }
 
-        return new Input(numberOfYears, santaBudget, children, gifts, changes);
+        return new Input(numberOfYears, santaBudget, childList, giftList, changes);
     }
 }

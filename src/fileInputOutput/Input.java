@@ -7,21 +7,21 @@ import database.Gift;
 import java.util.List;
 
 public final class Input {
-    private final int numberOfYears;
+    private int numberOfYears;
 
-    private final int santaBudget;
+    private int santaBudget;
 
-    private final List<Child> children;
+    private List<Child> childList;
 
-    private final List<Gift> gifts;
+    private List<Gift> giftList;
 
-    private final List<AnnualChange> changes;
+    private List<AnnualChange> changes;
 
-    public Input(int numberOfYears, int santaBudget, List<Child> children, List<Gift> gifts, List<AnnualChange> changes) {
+    public Input(int numberOfYears, int santaBudget, List<Child> childList, List<Gift> giftList, List<AnnualChange> changes) {
         this.numberOfYears = numberOfYears;
         this.santaBudget = santaBudget;
-        this.children = children;
-        this.gifts = gifts;
+        this.childList = childList;
+        this.giftList = giftList;
         this.changes = changes;
     }
 
@@ -33,12 +33,12 @@ public final class Input {
         return santaBudget;
     }
 
-    public List<Child> getChildren() {
-        return children;
+    public List<Child> getChildList() {
+        return childList;
     }
 
-    public List<Gift> getGifts() {
-        return gifts;
+    public List<Gift> getGiftList() {
+        return giftList;
     }
 
     public List<AnnualChange> getChanges() {
@@ -50,8 +50,8 @@ public final class Input {
         return "Input{" +
                 "numberOfYears=" + numberOfYears +
                 ", santaBudget=" + santaBudget +
-                ", children=" + children +
-                ", gifts=" + gifts +
+                ", children=" + childList +
+                ", gifts=" + giftList +
                 ", changes=" + changes +
                 '}';
     }
