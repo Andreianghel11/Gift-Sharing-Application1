@@ -3,11 +3,11 @@ package database;
 public class Gift {
     private String name;
 
-    private int price;
+    private double price;
 
     private String category;
 
-    public Gift(String name, int price, String category) {
+    public Gift(String name, double price, String category) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -21,11 +21,11 @@ public class Gift {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

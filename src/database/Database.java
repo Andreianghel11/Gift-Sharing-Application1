@@ -103,11 +103,9 @@ public class Database {
                 int position = findGiftByPreference(preference);
                 if (position >= 0) {
                     Gift gift = giftList.get(position);
-                    remainingBudget -= gift.getPrice();
-                    if (remainingBudget >= 0) {
+                    if (remainingBudget - gift.getPrice() >= 0) {
+                        remainingBudget -= gift.getPrice();
                         child.getGiftsReceived().add(gift);
-                    } else {
-                        break;
                     }
                 }
             }

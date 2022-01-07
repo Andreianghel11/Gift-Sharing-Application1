@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Writer {
@@ -43,7 +44,10 @@ public class Writer {
         objectChild.put(Constants.AGE, child.getAge());
         objectChild.put(Constants.GIFTS_PREFERENCES, child.getGiftPreferences());
         objectChild.put(Constants.AVERAGE_SCORE, child.getNiceScore());
-        objectChild.put(Constants.NICE_SCORE_HISTORY, child.getNiceScoresList());
+
+        List<Double> niceScoreList = new ArrayList<>(child.getNiceScoresList());
+        objectChild.put(Constants.NICE_SCORE_HISTORY, niceScoreList);
+
         objectChild.put(Constants.ASSIGNED_BUDGET, child.getBudgetAllocated());
 
         JSONArray arrayReceivedGifts = writeReceivedGifts(child.getGiftsReceived());

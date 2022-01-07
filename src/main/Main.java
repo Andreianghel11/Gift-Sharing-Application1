@@ -75,7 +75,10 @@ public final class Main {
 
         //System.out.println(database.getChildList());
 
-        for (AnnualChange annualChange : input.getChanges()) {
+        for (int currentYear = 0; currentYear <= input.getNumberOfYears() - 1; currentYear++) {
+
+            AnnualChange annualChange = input.getChanges().get(currentYear);
+
             database.implementAnnualChange(annualChange);
             database.calculateChildScores();
             database.calculateBudget();
