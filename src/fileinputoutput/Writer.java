@@ -1,4 +1,4 @@
-package fileInputOutput;
+package fileinputoutput;
 
 import common.Constants;
 import database.Child;
@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to write the output.
+ */
 public class Writer {
     /**
      * The file where the data will be written
@@ -21,12 +24,14 @@ public class Writer {
         this.file = new FileWriter(path);
     }
 
-
-    public JSONObject writeChildList(List<Child> childList) throws IOException {
+    /**
+     * Writes a Child list as a JSONObject.
+     */
+    public JSONObject writeChildList(final List<Child> childList) throws IOException {
         JSONObject object = new JSONObject();
         JSONArray arrayChildren = new JSONArray();
-        for (Child c : childList) {
-            arrayChildren.add(writeChild(c));
+        for (Child child : childList) {
+            arrayChildren.add(writeChild(child));
         }
 
         object.put(Constants.CHILDREN, arrayChildren);
@@ -34,7 +39,10 @@ public class Writer {
         return object;
     }
 
-    public JSONObject writeChild(Child child) throws IOException {
+    /**
+     * Writes a Child as a JSONObject.
+     */
+    public JSONObject writeChild(final Child child) throws IOException {
         JSONObject objectChild = new JSONObject();
 
         objectChild.put(Constants.ID, child.getId());
@@ -59,7 +67,10 @@ public class Writer {
         return objectChild;
     }
 
-    public JSONArray writeReceivedGifts(List<Gift> giftsReceived) {
+    /**
+     * Writes a Gift list as a JSONArray.
+     */
+    public JSONArray writeReceivedGifts(final List<Gift> giftsReceived) {
         JSONArray arrayReceivedGifts = new JSONArray();
         for (Gift gift : giftsReceived) {
             JSONObject objectGift = writeGift(gift);
@@ -69,7 +80,10 @@ public class Writer {
         return arrayReceivedGifts;
     }
 
-    public JSONObject writeGift(Gift gift) {
+    /**
+     * Writes a Gift as a JSONObject.
+     */
+    public JSONObject writeGift(final Gift gift) {
         JSONObject objectGift = new JSONObject();
         objectGift.put(Constants.PRODUCT_NAME, gift.getName());
         objectGift.put(Constants.PRICE, gift.getPrice());
@@ -79,9 +93,7 @@ public class Writer {
     }
 
     /**
-     * writes to the file and close it
-     *
-     * @param array of JSON
+     * Writes to the file and closes it.
      */
     public void closeJSON(final JSONArray array) {
         JSONObject result = new JSONObject();

@@ -1,9 +1,16 @@
 package database;
 
+import nicescorestrategy.NiceScoreCalculator;
+import nicescorestrategy.NiceScoreFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Child {
+/**
+ * Class defines objects that
+ * store data about children.
+ */
+public final class Child {
     private int id;
 
     private String lastName;
@@ -20,12 +27,13 @@ public class Child {
 
     private List<Double> niceScoresList;
 
-    public double budgetAllocated;
+    private double budgetAllocated;
 
     private List<Gift> giftsReceived;
 
-    public Child(int id, String lastName, String firstName, int age, String city,
-                 double niceScore, ArrayList<String> giftPreferences) {
+    public Child(final int id, final String lastName, final String firstName, final int age,
+                 final String city, final double niceScore,
+                 final ArrayList<String> giftPreferences) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -43,7 +51,7 @@ public class Child {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -51,7 +59,7 @@ public class Child {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -59,7 +67,7 @@ public class Child {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -67,7 +75,7 @@ public class Child {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(final int age) {
         this.age = age;
     }
 
@@ -75,7 +83,7 @@ public class Child {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -83,7 +91,7 @@ public class Child {
         return niceScore;
     }
 
-    public void setNiceScore(double niceScore) {
+    public void setNiceScore(final double niceScore) {
         this.niceScore = niceScore;
     }
 
@@ -91,7 +99,7 @@ public class Child {
         return giftPreferences;
     }
 
-    public void setGiftPreferences(List<String> giftPreferences) {
+    public void setGiftPreferences(final List<String> giftPreferences) {
         this.giftPreferences = giftPreferences;
     }
 
@@ -99,7 +107,7 @@ public class Child {
         return niceScoresList;
     }
 
-    public void setNiceScoresList(List<Double> niceScoresList) {
+    public void setNiceScoresList(final List<Double> niceScoresList) {
         this.niceScoresList = niceScoresList;
     }
 
@@ -107,7 +115,7 @@ public class Child {
         return budgetAllocated;
     }
 
-    public void setBudgetAllocated(double budgetAllocated) {
+    public void setBudgetAllocated(final double budgetAllocated) {
         this.budgetAllocated = budgetAllocated;
     }
 
@@ -115,22 +123,20 @@ public class Child {
         return giftsReceived;
     }
 
-    public void setGiftsReceived(List<Gift> giftsReceived) {
+    public void setGiftsReceived(final List<Gift> giftsReceived) {
         this.giftsReceived = giftsReceived;
     }
 
-    @Override
-    public String toString() {
-        return "Child{" +
-                "id=" + id +
-                ", lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", age=" + age +
-                ", city='" + city + '\'' +
-                ", niceScore=" + niceScore +
-                ", giftPreferences=" + giftPreferences +
-                ", niceScoresList=" + niceScoresList +
-                ", budgetAllocated=" + budgetAllocated +
-                '}';
+    /**
+     * Calculates a child's nice score using the
+     * strategy and factory design patterns to determine
+     * the right algorithm to use.
+     */
+    public void calculateChildScore() {
+        NiceScoreCalculator niceScoreCalculator = NiceScoreFactory
+                .createNiceScoreCalculator(age);
+        if (niceScoreCalculator != null) {
+            niceScore = niceScoreCalculator.calculateNiceScore(this);
+        }
     }
 }

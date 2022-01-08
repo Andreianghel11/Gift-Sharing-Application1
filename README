@@ -1,0 +1,61 @@
+_Anghel Andrei - Stelian,
+322CA,
+Ianuarie 2022_
+
+## Implementarea etapei 1 a proiectului: Santa Claus is coming to ACS students
+
+### **I. Idee**
+
+Pentru implementare am ales să simulez o bază de date ce reține datele primite de la input precum
+bugetul, lista de copii și lista de cadouri, iar ulterior să aplic operațiile menționate în enunț
+bazei de date. Citirea și scrierea din fișierele JSON sunt implementate folosind clasele JSONParser,
+JSONObject, JSONArray și Writer. Design pattern-urile pe care le-am utilizat sunt **Singleton, Strategy
+și Factory.**
+
+Am decis să stochez scorul de cumințenie, istoricul scorurilor de cumințenie, bugetul alocat și
+lista de cadouri primite în cadrul obiectelor de tip **Child**. După efectuarea calculelor specifice
+fiecărui an, obiecte de tip Child conțin toate informațiile relevante pentru output-ul corespunzător
+acelui an.
+
+### **II. Clase definite**
+
+Clasa **Database** respectă design pattern-ul **Singleton**, deoarece permite crearea unui singur obiect de
+acest tip. Obiectul primește datele inițiale de la un obiect de tip Input, iar metodele aplicate
+bazei de date sunt definite tot în cadrul acestei clase. Calcularea scorului pentru fiecare copil,
+calcularea bugetului pentru fiecare copil, distribuirea cadourilor și diversele sortări țin toate
+de baza de date existentă. Pentru aplicarea modificărilor anuale am adăugat metoda
+**implementAnnualChanges()** ce actualizează baza de date în funcție de modificările impuse.
+
+### **III. Input**
+
+- Obiectele de tip Input rețin datele preluate din fișierele JSON;
+
+- Clasa InputLoader implementează logica citirii datelor dintr-un fișier JSON a cărui cale este
+dată ca parametru;
+
+- Am utilizat diverse constante definite în clasa Constants;
+
+- Atunci când un NiceScore are valoarea null am stabilit să trec în Input valoarea -1, ținând
+cont de acest lucru mai departe în cadrul programului.
+
+### **IV. Output**
+
+- Scrierea este implementată în clasa Writer;
+
+- Folosind metodele JSONObject.put() și JSONArray.add() am construit obiectul de tip JSON ce este
+printat în fișier sub formă de string.
+
+### **V. Main**
+
+Odată cu stabilirea fișierelor de intrare și de ieșire, pentru fiecare test este aplicată metoda
+**runTest()**. Are loc inițializarea bazei de date pentru Input-ul primit și sunt efectuate
+calculele corespunzătoare rundei 0. În continuare sunt parcurse toate schimbările anuale și sunt
+aplicate modificările la fiecare pas. Pe măsură ce sunt parcurși anii, listele cu obiecte de tip
+Child sunt adăugate într-un un JSONArray ce va conține la final toate datele necesare pentru output.
+
+### **VI. Alte detalii**
+
+- Pentru calcularea scorului de cumințenie a copiilor am folosit design patter-ul **strategy**.
+Obiectul ce conține implementarea algoritmului necesar este determinat prin intermediul unei clase
+de tip **factory**.
+- Am tratat preferințele copiilor și categoriile cadourilor ca fiind String-uri.

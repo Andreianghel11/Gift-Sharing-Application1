@@ -3,14 +3,19 @@ package database;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildUpdate {
+/**
+ * Class defines objects that store
+ * data about annual child updates.
+ */
+public final class ChildUpdate {
     private int id;
 
     private double niceScore;
 
     private List<String> giftsPreferences;
 
-    public ChildUpdate(int id, double niceScore, ArrayList<String> giftsPreferences) {
+    public ChildUpdate(final int id, final double niceScore,
+                       final ArrayList<String> giftsPreferences) {
         this.id = id;
         this.niceScore = niceScore;
         this.giftsPreferences = giftsPreferences;
@@ -20,7 +25,7 @@ public class ChildUpdate {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
@@ -28,7 +33,7 @@ public class ChildUpdate {
         return niceScore;
     }
 
-    public void setNiceScore(double niceScore) {
+    public void setNiceScore(final double niceScore) {
         this.niceScore = niceScore;
     }
 
@@ -36,16 +41,7 @@ public class ChildUpdate {
         return giftsPreferences;
     }
 
-    public void setGiftsPreferences(List<String> giftsPreferences) {
+    public void setGiftsPreferences(final List<String> giftsPreferences) {
         this.giftsPreferences = giftsPreferences;
-    }
-
-    @Override
-    public String toString() {
-        return "ChildUpdate{" +
-                "id=" + id +
-                ", niceScore=" + niceScore +
-                ", giftsPreferences=" + giftsPreferences +
-                '}';
     }
 }

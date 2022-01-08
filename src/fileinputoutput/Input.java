@@ -1,4 +1,4 @@
-package fileInputOutput;
+package fileinputoutput;
 
 import database.AnnualChange;
 import database.Child;
@@ -6,6 +6,10 @@ import database.Gift;
 
 import java.util.List;
 
+/**
+ * Class defines objects used
+ * to store data from the input.
+ */
 public final class Input {
     private int numberOfYears;
 
@@ -17,7 +21,8 @@ public final class Input {
 
     private List<AnnualChange> changes;
 
-    public Input(int numberOfYears, int santaBudget, List<Child> childList, List<Gift> giftList, List<AnnualChange> changes) {
+    public Input(final int numberOfYears, final int santaBudget, final List<Child> childList,
+                 final List<Gift> giftList, final List<AnnualChange> changes) {
         this.numberOfYears = numberOfYears;
         this.santaBudget = santaBudget;
         this.childList = childList;
@@ -29,30 +34,39 @@ public final class Input {
         return numberOfYears;
     }
 
+    public void setNumberOfYears(final int numberOfYears) {
+        this.numberOfYears = numberOfYears;
+    }
+
     public int getSantaBudget() {
         return santaBudget;
+    }
+
+    public void setSantaBudget(final int santaBudget) {
+        this.santaBudget = santaBudget;
     }
 
     public List<Child> getChildList() {
         return childList;
     }
 
+    public void setChildList(final List<Child> childList) {
+        this.childList = childList;
+    }
+
     public List<Gift> getGiftList() {
         return giftList;
+    }
+
+    public void setGiftList(final List<Gift> giftList) {
+        this.giftList = giftList;
     }
 
     public List<AnnualChange> getChanges() {
         return changes;
     }
 
-    @Override
-    public String toString() {
-        return "Input{" +
-                "numberOfYears=" + numberOfYears +
-                ", santaBudget=" + santaBudget +
-                ", children=" + childList +
-                ", gifts=" + giftList +
-                ", changes=" + changes +
-                '}';
+    public void setChanges(final List<AnnualChange> changes) {
+        this.changes = changes;
     }
 }

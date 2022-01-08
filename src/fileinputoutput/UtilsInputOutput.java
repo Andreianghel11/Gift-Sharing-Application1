@@ -1,11 +1,20 @@
-package fileInputOutput;
+package fileinputoutput;
 
 import org.json.simple.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public final class Utils {
+/**
+ * Contains utility methods used
+ * for input/output.
+ */
+public final class UtilsInputOutput {
+
+    private UtilsInputOutput() { }
+    /**
+     * Deletes every file inside a directory.
+     */
     public static void deleteFiles(final File[] directory) {
         if (directory != null) {
             for (File file : directory) {
@@ -14,6 +23,9 @@ public final class Utils {
         }
     }
 
+    /**
+     * Converts a JSONArray to an ArrayList of Strings.
+     */
     public static ArrayList<String> convertJSONArray(final JSONArray array) {
         if (array != null) {
             ArrayList<String> finalArray = new ArrayList<>();

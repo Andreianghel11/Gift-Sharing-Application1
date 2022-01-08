@@ -1,13 +1,16 @@
 package database;
 
-import calculatingNiceScore.NiceScoreCalculator;
-import calculatingNiceScore.NiceScoreFactory;
-import fileInputOutput.Input;
+import common.Constants;
+import fileinputoutput.Input;
 
 import java.util.Comparator;
 import java.util.List;
 
-public class Database {
+/**
+ * Singleton class that defines an object
+ * containing most of the important data.
+ */
+public final class Database {
     private int santaBudget;
 
     private List<Child> childList;
@@ -16,8 +19,11 @@ public class Database {
 
     private static Database instance = null;
 
-    private Database() {}
+    private Database() { }
 
+    /**
+     * Method specific to the Singleton pattern.
+     */
     public static Database getInstance() {
         if (instance == null) {
             instance = new Database();
@@ -25,7 +31,10 @@ public class Database {
         return instance;
     }
 
-    public void loadDatabase(Input input) {
+    /**
+     * Loads the database based on the given input.
+     */
+    public void loadDatabase(final Input input) {
         this.santaBudget = input.getSantaBudget();
         this.childList = input.getChildList();
         this.giftList = input.getGiftList();
@@ -35,7 +44,7 @@ public class Database {
         return santaBudget;
     }
 
-    public void setSantaBudget(int santaBudget) {
+    public void setSantaBudget(final int santaBudget) {
         this.santaBudget = santaBudget;
     }
 
@@ -43,7 +52,7 @@ public class Database {
         return childList;
     }
 
-    public void setChildList(List<Child> childList) {
+    public void setChildList(final List<Child> childList) {
         this.childList = childList;
     }
 
@@ -51,37 +60,55 @@ public class Database {
         return giftList;
     }
 
-    public void setGiftList(List<Gift> giftList) {
+    public void setGiftList(final List<Gift> giftList) {
         this.giftList = giftList;
     }
 
-    @Override
-    public String toString() {
-        return "Database{" +
-                "santaBudget=" + santaBudget +
-                ", children=" + childList +
-                ", gifts=" + giftList +
-                '}';
+    /**
+     * Operations that must be implemented every year.
+     */
+    public void implementAnnualOperations() {
+        removeYoungAdults();
+        calculateChildScores();
+        calculateBudget();
+        distributeGifts();
+        sortChildren();
     }
 
+    /**
+     * Removes young adults that don't receive
+     * gifts and don't appear in the output.
+     */
+    public void removeYoungAdults() {
+        childList.removeIf(child -> child.getAge() > Constants.TEEN_MAX_AGE);
+    }
+
+    /**
+     * Calculates and updates the
+     * nice score for every child.
+     */
     public void calculateChildScores() {
-        for (Child c : childList) {
-            NiceScoreCalculator niceScoreCalculator = NiceScoreFactory
-                    .createNiceScoreCalculator(c.getAge());
-            if (niceScoreCalculator != null)
-                c.setNiceScore(niceScoreCalculator.calculateNiceScore(c));
+        for (Child child : childList) {
+            child.calculateChildScore();
         }
     }
 
-    //Asta si cea de sus ar putea fi cuplate
+    /**
+     * Calculates the average
+     * nice score of all children.
+     */
     public double calculateAverageNiceScoreSum() {
         double sum = 0;
-        for (Child c : childList) {
-            sum += c.getNiceScore();
+        for (Child child : childList) {
+            sum += child.getNiceScore();
         }
         return sum;
     }
 
+    /**
+     * Calculates and sets the budget
+     * allocated for every child.
+     */
     public void calculateBudget() {
         double budgetUnit = santaBudget / calculateAverageNiceScoreSum();
         for (Child c : childList) {
@@ -89,18 +116,29 @@ public class Database {
         }
     }
 
+    /**
+     * Method to sort the gift list by price.
+     */
     public void sortGifts() {
         giftList.sort(Comparator.comparingDouble(Gift::getPrice));
     }
 
+    /**
+     * Method to sort the children list by id.
+     */
     public void sortChildren() {
         childList.sort(Comparator.comparingInt(Child::getId));
     }
 
-    public int findGiftByPreference(String preference) {
+    /**
+     * Looks for a child's preference amongst the
+     * gift list. If found, the method returns the
+     * position of the gift, otherwise returns value -1.
+     */
+    public int findGiftByPreference(final String preference) {
         int position = 0;
         for (Gift gift : giftList) {
-            if (preference.equalsIgnoreCase(gift.getCategory())) {
+            if (preference.equals(gift.getCategory())) {
                 return position;
             }
             position++;
@@ -108,10 +146,21 @@ public class Database {
         return -1;
     }
 
+    /**
+     * Determines the received gifts for all children
+     * based on their nice score, preferences and
+     * the list of available gifts.
+     */
     public void distributeGifts() {
+        /*
+          First perform a gift sort by price
+          to ensure that the first gift found
+          is the one with the lowest price.
+         */
         sortGifts();
         for (Child child : childList) {
             child.getGiftsReceived().clear();
+
             double remainingBudget = child.getBudgetAllocated();
             for (String preference : child.getGiftPreferences()) {
                 int position = findGiftByPreference(preference);
@@ -126,7 +175,11 @@ public class Database {
         }
     }
 
-    public void implementAnnualChange(AnnualChange annualChange) {
+    /**
+     * Implements the annual changes received from
+     * the input then applies the usual operations.
+     */
+    public void implementAnnualChange(final AnnualChange annualChange) {
         increaseAge();
         removeYoungAdults();
         addNewChildren(annualChange.getNewChildren());
@@ -134,58 +187,85 @@ public class Database {
         updateChildren(annualChange.getChildrenUpdates());
         santaBudget = annualChange.getNewSantaBudget();
 
-        calculateChildScores();
-        calculateBudget();
-        distributeGifts();
+        implementAnnualOperations();
     }
 
+    /**
+     * Increases the age of every child.
+     */
     public void increaseAge() {
         for (Child child : childList) {
             child.setAge(child.getAge() + 1);
         }
     }
 
-    public void removeYoungAdults() {
-        childList.removeIf(child -> child.getAge() > 18);
-    }
-
-    public void addNewChildren(List<Child> newChildren) {
+    /**
+     * Adds a new child to the list only if
+     * he isn't a young adult.
+     */
+    public void addNewChildren(final List<Child> newChildren) {
         for (Child newChild : newChildren) {
-            if (newChild.getAge() <= 18) {
+            if (newChild.getAge() <= Constants.TEEN_MAX_AGE) {
                 childList.add(newChild);
             }
         }
     }
 
-    public void addNewGifts(List<Gift> newGifts) {
+    /**
+     * Adds the new gifts to the database.
+     */
+    public void addNewGifts(final List<Gift> newGifts) {
         giftList.addAll(newGifts);
     }
 
-    public boolean isChildInList(int id) {
+    /**
+     * Determines if a child is already in
+     * the database (based on his/her id).
+     */
+    public boolean isChildInList(final int id) {
         for (Child child : childList) {
-            if (id == child.getId())
+            if (id == child.getId()) {
                 return true;
+            }
         }
         return false;
     }
 
-    public Child getChildById(int id) {
+    /**
+     * Looks for a child in the database
+     * by id and returns the object if
+     * found. Otherwise, returns null.
+     */
+    public Child getChildById(final int id) {
         for (Child child : childList) {
-            if (child.getId() == id)
+            if (child.getId() == id) {
                 return child;
+            }
         }
         return null;
     }
 
-    public void updateChildren(List<ChildUpdate> childUpdates) {
+    /**
+     * Updates the data of a child only
+     * if it is found in the database.
+     */
+    public void updateChildren(final List<ChildUpdate> childUpdates) {
         for (ChildUpdate childUpdate : childUpdates) {
             if (isChildInList(childUpdate.getId())) {
                 Child child = getChildById(childUpdate.getId());
 
+                /*
+                  Add the new nice score only if it isn't equal
+                  to -1 - the score corresponding to a null input.
+                 */
                 if (childUpdate.getNiceScore() >= 0) {
                     child.getNiceScoresList().add(childUpdate.getNiceScore());
                 }
 
+                /*
+                  Add the new preferences at the top of the list and remove
+                  previous appearances of the String in the preference list.
+                 */
                 for (int i = childUpdate.getGiftsPreferences().size() - 1; i >= 0; i--) {
                     String preference = childUpdate.getGiftsPreferences().get(i);
                     if (child.getGiftPreferences().contains(preference)) {

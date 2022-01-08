@@ -1,13 +1,17 @@
 package database;
 
-public class Gift {
+/**
+ * Class defines an objects
+ * that store data about gifts.
+ */
+public final class Gift {
     private String name;
 
     private double price;
 
     private String category;
 
-    public Gift(String name, double price, String category) {
+    public Gift(final String name, final double price, final String category) {
         this.name = name;
         this.price = price;
         this.category = category;
@@ -17,7 +21,7 @@ public class Gift {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -25,7 +29,7 @@ public class Gift {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(final double price) {
         this.price = price;
     }
 
@@ -33,16 +37,8 @@ public class Gift {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Gift{" +
-                "name='" + name + '\'' +
-                ", price=" + price +
-                ", category='" + category + '\'' +
-                '}';
-    }
 }
