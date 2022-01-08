@@ -42,18 +42,7 @@ public final class InputLoader {
             JSONArray jsonAnnualChanges = (JSONArray) jsonObject.get(Constants.ANNUAL_CHANGES);
 
             if (jsonChildren != null) {
-                for (Object jsonIterator : jsonChildren) {
-                    childList.add(new Child(
-                            ((Long) ((JSONObject) jsonIterator).get(Constants.ID)).intValue(),
-                            ((JSONObject) jsonIterator).get(Constants.LAST_NAME).toString(),
-                            ((JSONObject) jsonIterator).get(Constants.FIRST_NAME).toString(),
-                            ((Long) ((JSONObject) jsonIterator).get(Constants.AGE)).intValue(),
-                            ((JSONObject) jsonIterator).get(Constants.CITY).toString(),
-                            ((Long) ((JSONObject) jsonIterator).get(Constants.NICE_SCORE)).intValue(),
-                            Utils.convertJSONArray((JSONArray) ((JSONObject) jsonIterator)
-                                    .get(Constants.GIFTS_PREFERENCES))
-                    ));
-                }
+                addChildren(jsonChildren, childList);
             }
 
             if (jsonGifts != null) {
@@ -73,7 +62,7 @@ public final class InputLoader {
 
                     JSONArray jsonNewGifts = (JSONArray) ((JSONObject) jsonIterator).get(Constants.NEW_GIFTS);
 
-                    if (jsonNewGifts != null || jsonNewGifts.isEmpty()) {
+                    if (jsonNewGifts != null) {
                         List<Gift> newGifts = new ArrayList<>();
                         for (Object secondJsonIterator : jsonNewGifts) {
                             newGifts.add(new Gift(
@@ -90,20 +79,9 @@ public final class InputLoader {
 
                     JSONArray jsonNewChildren = (JSONArray) ((JSONObject) jsonIterator).get(Constants.NEW_CHILDREN);
 
-                    if (jsonNewChildren != null || jsonNewChildren.isEmpty()) {
+                    if (jsonNewChildren != null) {
                         List<Child> newChildren = new ArrayList<>();
-                        for (Object secondJsonIterator : jsonNewChildren) {
-                            newChildren.add(new Child(
-                                   ((Long) ((JSONObject) secondJsonIterator).get(Constants.ID)).intValue(),
-                                    ((JSONObject) secondJsonIterator).get(Constants.LAST_NAME).toString(),
-                                    ((JSONObject) secondJsonIterator).get(Constants.FIRST_NAME).toString(),
-                                    ((Long) ((JSONObject) secondJsonIterator).get(Constants.AGE)).intValue(),
-                                    ((JSONObject) secondJsonIterator).get(Constants.CITY).toString(),
-                                    ((Long) ((JSONObject) secondJsonIterator).get(Constants.NICE_SCORE)).intValue(),
-                                    Utils.convertJSONArray((JSONArray) ((JSONObject) secondJsonIterator)
-                                            .get(Constants.GIFTS_PREFERENCES))
-                            ));
-                        }
+                        addChildren(jsonNewChildren, newChildren);
                         annualChange.setNewChildren(newChildren);
                     } else {
                         annualChange.setNewChildren(null);
@@ -112,7 +90,7 @@ public final class InputLoader {
 
                     JSONArray jsonChildrenUpdates = (JSONArray) ((JSONObject) jsonIterator).get(Constants.CHILDREN_UPDATES);
 
-                    if (jsonChildrenUpdates != null || jsonChildrenUpdates.isEmpty()) {
+                    if (jsonChildrenUpdates != null) {
                         List<ChildUpdate> childrenUpdates = new ArrayList<>();
                         for (Object secondJsonIterator : jsonChildrenUpdates) {
                             if( ((JSONObject) secondJsonIterator).get(Constants.NICE_SCORE) == null) {
@@ -146,5 +124,20 @@ public final class InputLoader {
         }
 
         return new Input(numberOfYears, santaBudget, childList, giftList, changes);
+    }
+
+    private void addChildren(JSONArray jsonNewChildren, List<Child> newChildren) {
+        for (Object secondJsonIterator : jsonNewChildren) {
+            newChildren.add(new Child(
+                   ((Long) ((JSONObject) secondJsonIterator).get(Constants.ID)).intValue(),
+                    ((JSONObject) secondJsonIterator).get(Constants.LAST_NAME).toString(),
+                    ((JSONObject) secondJsonIterator).get(Constants.FIRST_NAME).toString(),
+                    ((Long) ((JSONObject) secondJsonIterator).get(Constants.AGE)).intValue(),
+                    ((JSONObject) secondJsonIterator).get(Constants.CITY).toString(),
+                    ((Long) ((JSONObject) secondJsonIterator).get(Constants.NICE_SCORE)).intValue(),
+                    Utils.convertJSONArray((JSONArray) ((JSONObject) secondJsonIterator)
+                            .get(Constants.GIFTS_PREFERENCES))
+            ));
+        }
     }
 }

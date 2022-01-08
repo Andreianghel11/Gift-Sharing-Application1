@@ -1,10 +1,9 @@
 package database;
 
-import calculatingNicenessScore.NiceScoreCalculator;
-import calculatingNicenessScore.NiceScoreFactory;
+import calculatingNiceScore.NiceScoreCalculator;
+import calculatingNiceScore.NiceScoreFactory;
 import fileInputOutput.Input;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,7 +14,18 @@ public class Database {
 
     private List<Gift> giftList;
 
-    public Database(Input input) {
+    private static Database instance = null;
+
+    private Database() {}
+
+    public static Database getInstance() {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+
+    public void loadDatabase(Input input) {
         this.santaBudget = input.getSantaBudget();
         this.childList = input.getChildList();
         this.giftList = input.getGiftList();
@@ -83,6 +93,10 @@ public class Database {
         giftList.sort(Comparator.comparingDouble(Gift::getPrice));
     }
 
+    public void sortChildren() {
+        childList.sort(Comparator.comparingInt(Child::getId));
+    }
+
     public int findGiftByPreference(String preference) {
         int position = 0;
         for (Gift gift : giftList) {
@@ -119,6 +133,10 @@ public class Database {
         addNewGifts(annualChange.getNewGifts());
         updateChildren(annualChange.getChildrenUpdates());
         santaBudget = annualChange.getNewSantaBudget();
+
+        calculateChildScores();
+        calculateBudget();
+        distributeGifts();
     }
 
     public void increaseAge() {
@@ -168,10 +186,14 @@ public class Database {
                     child.getNiceScoresList().add(childUpdate.getNiceScore());
                 }
 
-                int position = 0;
-                for (String preference : childUpdate.getGiftsPreferences()) {
-                    child.getGiftPreferences().add(position, preference);
-                    position++;
+                for (int i = childUpdate.getGiftsPreferences().size() - 1; i >= 0; i--) {
+                    String preference = childUpdate.getGiftsPreferences().get(i);
+                    if (child.getGiftPreferences().contains(preference)) {
+                        child.getGiftPreferences().remove(preference);
+                        child.getGiftPreferences().add(0, preference);
+                    } else {
+                        child.getGiftPreferences().add(0, preference);
+                    }
                 }
             }
         }

@@ -42,7 +42,10 @@ public class Writer {
         objectChild.put(Constants.FIRST_NAME, child.getFirstName());
         objectChild.put(Constants.CITY, child.getCity());
         objectChild.put(Constants.AGE, child.getAge());
-        objectChild.put(Constants.GIFTS_PREFERENCES, child.getGiftPreferences());
+
+        List<String> giftsPreferencesList = new ArrayList<>(child.getGiftPreferences());
+        objectChild.put(Constants.GIFTS_PREFERENCES, giftsPreferencesList);
+
         objectChild.put(Constants.AVERAGE_SCORE, child.getNiceScore());
 
         List<Double> niceScoreList = new ArrayList<>(child.getNiceScoresList());

@@ -16,9 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Objects;
 
 /**
  * Class used to run the code
@@ -30,8 +28,6 @@ public final class Main {
     }
 
     public static void runApplication() throws IOException {
-        File inputDirectory = new File(Constants.TESTS_PATH);
-
         Path outputPath = Paths.get(Constants.OUTPUT_DIRECTORY);
         if (!Files.exists(outputPath)) {
             Files.createDirectory(outputPath);
@@ -41,13 +37,9 @@ public final class Main {
 
         for (int fileNumber = 1; fileNumber <= 25; fileNumber++) {
             String inputFilePath = Constants.INPUT_PATH + fileNumber + Constants.FILE_EXTENSION;
+            String outputFilePath = Constants.OUTPUT_PATH + fileNumber + Constants.FILE_EXTENSION;
 
-            String filepath = Constants.OUTPUT_PATH + fileNumber + Constants.FILE_EXTENSION;
-            File out = new File(filepath);
-            boolean isCreated = out.createNewFile();
-            if (isCreated) {
-                runTest(inputFilePath, filepath);
-            }
+            runTest(inputFilePath, outputFilePath);
         }
     }
 
@@ -62,37 +54,27 @@ public final class Main {
         JSONArray arrayAnnualChildList = new JSONArray();
 
         //Implementarea logicii
-        Database database = new Database(input);
+        Database database = Database.getInstance();
+        database.loadDatabase(input);
         database.removeYoungAdults();
 
         //Runda 0
         database.calculateChildScores();
         database.calculateBudget();
         database.distributeGifts();
-
-        database.getChildList().sort(Comparator.comparingInt(Child::getId));
+        database.sortChildren();
         arrayAnnualChildList.add(fileWriter.writeChildList(database.getChildList()));
-
-        //System.out.println(database.getChildList());
 
         for (int currentYear = 0; currentYear <= input.getNumberOfYears() - 1; currentYear++) {
 
             AnnualChange annualChange = input.getChanges().get(currentYear);
-
             database.implementAnnualChange(annualChange);
-            database.calculateChildScores();
-            database.calculateBudget();
-            database.distributeGifts();
 
-            database.getChildList().sort(Comparator.comparingInt(Child::getId));
+            database.sortChildren();
             arrayAnnualChildList.add(fileWriter.writeChildList(database.getChildList()));
-            //System.out.println(database.getChildList());
         }
 
-        //Afisarea in fisierul out
-
         fileWriter.closeJSON(arrayAnnualChildList);
-
     }
 
 

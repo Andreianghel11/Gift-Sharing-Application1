@@ -1,4 +1,4 @@
-package calculatingNicenessScore;
+package calculatingNiceScore;
 
 import database.Child;
 

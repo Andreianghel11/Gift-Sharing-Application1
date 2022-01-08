@@ -1,4 +1,4 @@
-package calculatingNicenessScore;
+package calculatingNiceScore;
 
 public class NiceScoreFactory {
     public static NiceScoreCalculator createNiceScoreCalculator(int age) {
