@@ -1,4 +1,2 @@
 Starting audit...
-[ERROR] E:\Facultate\An II\Sem 1\POO\Proiect1\proiect1\.\src\nicescorestrategy\NiceScoreCalculator.java:10:5: Missing a Javadoc comment. [MissingJavadocMethod]
 Audit done.
-Checkstyle ends with 1 errors.

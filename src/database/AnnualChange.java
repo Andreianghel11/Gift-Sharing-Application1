@@ -54,5 +54,4 @@ public final class AnnualChange {
     public void setChildrenUpdates(final List<ChildUpdate> childrenUpdates) {
         this.childrenUpdates = childrenUpdates;
     }
-
 }
